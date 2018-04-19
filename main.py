@@ -12,7 +12,10 @@ parser = argparse_.p()
 parser.add_argument('--ghc_path')
 args = parser.parse_args()
 
-assert args.ghc_path, '--ghc_path is required'
+username = os.getenv('GITHUB_USERNAME')
+
+assert args.ghc_path, '--ghc_path argument is required'
+assert username, 'GITHUB_USERNAME environ is required'
 
 hadrian_path = args.ghc_path + '/hadrian'
 
@@ -53,9 +56,7 @@ def run_build():
     info['exit-code'] = code
     print("================= SUMMARY =================")
     print(info)
-    home_dir = os.getenv('HOME')
-    os.mkdir(home_dir + '/.hadrians-wall')
-    f = open(home_dir + '/.hadrians-wall/build-info.log', 'a+')
+    f = open('logs/' + username + '.log', 'a+')
     dumped = json.dumps(info)
     assert '\n' not in dumped, 'newline in JSON export'
     f.write(dumped + '\n')
