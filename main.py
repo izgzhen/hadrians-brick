@@ -10,6 +10,8 @@ from base.assert_ import *
 
 parser = argparse_.p()
 parser.add_argument('--ghc_path')
+parser.add_argument('--clean', action='store_true')
+parser.add_argument('--flavour', choices=['quickest'], default='quickest')
 args = parser.parse_args()
 
 username = os.getenv('GITHUB_USERNAME')
@@ -48,12 +50,18 @@ def get_build_info():
     return info
 
 def run_build():
+    if args.clean:
+        subprocess.call(['./boot'], cwd=args.ghc_path)
+        subprocess.call(['./configure'], cwd=args.ghc_path)
+        subprocess.call(['bash', 'build.sh', 'clean'], cwd=hadrian_path)
     now = time.time()
-    code = subprocess.call(['bash', 'build.sh', '--flavour=quickest'], cwd=hadrian_path)
+    code = subprocess.call(['bash', 'build.sh', '--flavour=' + args.flavour], cwd=hadrian_path)
     duration = time.time() - now
     info = get_build_info()
     info['duration'] = duration
     info['exit-code'] = code
+    info['clean'] = args.clean
+    info['flavour'] = args.flavour
     print("================= SUMMARY =================")
     print(info)
     f = open('logs/' + username + '.log', 'a+')
