@@ -103,7 +103,6 @@
 {"timestamp": "2017-09-25T15:50:04.401275", "mode": "validate", "duration": "3962.55865288", "exit-code": 0}
 {"timestamp": "2017-09-16T03:16:58.215251", "mode": "default", "duration": "5576.570158", "exit-code": 0}
 {"timestamp": "2017-09-26T02:08:47.376550", "mode": "default", "duration": "1485.46707606", "exit-code": 1}
-{"timestamp": "2018-03-02T10:33:36.467136", "mode": "default", "duration": "37.869494915", "exit-code": 0}
 {"timestamp": "2017-09-16T15:53:31.455666", "mode": "validate", "duration": "4169.61654091", "exit-code": 0}
 {"timestamp": "2017-09-26T02:08:47.376550", "mode": "default", "duration": "1485.46707606", "exit-code": 1}
 {"hadrian-git-hash": "64da39cc9f955d7c1492ab39927a8e0849b23f00", "flavour": "quickest", "clean": true, "duration": 126.33984017372131, "platform": "Linux-4.13.0-38-generic-x86_64-with-Ubuntu-16.04-xenial", "timestamp": "Tue Apr 24 14:52:27 2018", "exit-code": 1, "ghc-git-hash": "5c9bc0771f426de2b99d6bb3a0f1d2eeaa91c710", "gcc-version": "5.4.0", "stage0-ghc-version": "8.2.2"}
