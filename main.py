@@ -62,6 +62,7 @@ def run_build():
     info['flavour'] = args.flavour
     print("================= SUMMARY =================")
     print(info)
+    print("======= reported by hadrian's brick =======")
     f = open('logs/' + username + '.log', 'a+')
     dumped = json.dumps(info)
     assert '\n' not in dumped, 'newline in JSON export'
