@@ -51,11 +51,9 @@ def get_build_info():
 
 def run_build():
     if args.clean:
-        subprocess.call(['./boot'], cwd=args.ghc_path)
-        subprocess.call(['./configure'], cwd=args.ghc_path)
         subprocess.call(['bash', 'build.sh', 'clean'], cwd=hadrian_path)
     now = time.time()
-    code = subprocess.call(['bash', 'build.sh', '--flavour=' + args.flavour], cwd=hadrian_path)
+    code = subprocess.call(['bash', 'build.sh', '-c', '--flavour=' + args.flavour], cwd=hadrian_path)
     duration = time.time() - now
     info = get_build_info()
     info['duration'] = duration
