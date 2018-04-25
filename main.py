@@ -11,7 +11,7 @@ from base.assert_ import *
 parser = argparse_.p()
 parser.add_argument('--ghc_path')
 parser.add_argument('--clean', action='store_true')
-parser.add_argument('--flavour', choices=['quickest'], default='quickest')
+parser.add_argument('--flavour', choices=['quickest', 'default'], default='quickest')
 args = parser.parse_args()
 
 username = os.getenv('GITHUB_USERNAME')
