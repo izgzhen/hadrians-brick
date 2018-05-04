@@ -27,8 +27,9 @@ hadrian_path = args.ghc_path + '/hadrian'
 assert os.path.isdir(args.ghc_path), "%s is not directory" % arg.ghc_path
 assert os.path.isdir(hadrian_path), "%s is not directory" % hadrian_path
 
-if args.flavour.split('-')[1] == 'cross':
-    flavour = args.flavour.split('-')[0]
+words = args.flavour.split('-')
+if len(words) > 1 and words[1] == 'cross':
+    flavour = words[0]
     cross_compiling = True
 else:
     flavour = args.flavour
