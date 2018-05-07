@@ -15,6 +15,7 @@ parser.add_argument('--flavour',
                     choices=['quickest', 'default', 'quick', 'quickest-cross'],
                     default='quickest')
 parser.add_argument('--integer', choices=['simple', 'gmp'], default='gmp')
+parser.add_argument('--stack', action='store_true')
 args = parser.parse_args()
 
 username = os.getenv('GITHUB_USERNAME')
@@ -39,10 +40,19 @@ def get_gcc_version():
     code, stdout, stderr = subprocess_.call_std(['gcc', '-v'])
     assert_eq(code, 0)
     m = re.search('gcc version ([\d\.]+)', stderr)
+    if m is None:
+        code, stdout, stderr = subprocess_.call_std(['clang', '-v'])
+        m = re.search('clang version ([\d\.]+)', stderr)
+        return 'clang-' + m.group(1)
     return m.group(1)
 
 def get_ghc_version():
-    code, stdout, stderr = subprocess_.call_std(['ghc', '--numeric-version'])
+    if args.stack:
+        code, stdout, stderr = \
+            subprocess_.call_std(['stack', 'exec', 'ghc', '--', '--numeric-version'],
+                                 cwd=hadrian_path)
+    else:
+        code, stdout, stderr = subprocess_.call_std(['ghc', '--numeric-version'])
     assert_eq(code, 0)
     return stdout.strip()
 
@@ -74,7 +84,11 @@ def run_build():
     with open(hadrian_path + '/src/UserSettings.hs', 'w') as f:
         f.write(user_settings.replace('stage1Only = False', 'stage1Only = True'))
     now = time.time()
-    build_args = ['bash', 'build.sh', '--flavour=' + flavour]
+    if args.stack:
+        build_sh = 'build.stack.sh'
+    else:
+        build_sh = 'build.sh'
+    build_args = ['bash', build_sh, '--flavour=' + flavour]
     if args.integer == 'simple':
         build_args.append('--integer-simple')
     code = subprocess.call(build_args, cwd=hadrian_path)
